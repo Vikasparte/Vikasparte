@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GK Quiz</title>
+  <style>
+    /* Add your CSS styles here for better presentation */
+  </style>
+</head>
+<body>
+
+<div id="quiz-container">
+  <h1>General Knowledge Quiz</h1>
+  <div id="question-container"></div>
+  <div id="options-container"></div>
+  <p id="timer">Time remaining: <span id="countdown">30</span> seconds</p>
+  <button onclick="nextQuestion()">Next Question</button>
+</div>
+
+<script>
+  // Replace these questions with your own
+  const questions = [
+    {
+      question: "What is the capital of France?",
+      options: ["Paris", "Berlin", "London", "Rome"],
+      correctAnswer: "Paris"
+    },
+    // Add more questions as needed
+  ];
+
+  let currentQuestionIndex = 0;
+  let countdown = 30;
+  let timer;
+
+  function startTimer() {
+    timer = setInterval(function() {
+      countdown--;
+      document.getElementById("countdown").textContent = countdown;
+
+      if (countdown <= 0) {
+        clearInterval(timer);
+        // Handle time's up scenario (e.g., show correct answer, move to the next question)
+        nextQuestion();
+      }
+    }, 1000);
+  }
+
+  function displayQuestion(question) {
+    document.getElementById("question-container").textContent = question.question;
+
+    const optionsContainer = document.getElementById("options-container");
+    optionsContainer.innerHTML = "";
+
+    question.options.forEach(option => {
+      const button = document.createElement("button");
+      button.textContent = option;
+      button.onclick = function() {
+        // Handle option selection (e.g., check if the answer is correct, update score)
+        nextQuestion();
+      };
+
+      optionsContainer.appendChild(button);
+    });
+  }
+
+  function nextQuestion() {
+    clearInterval(timer);
+    countdown = 30;
+
+    if (currentQuestionIndex < questions.length - 1) {
+      currentQuestionIndex++;
+      displayQuestion(questions[currentQuestionIndex]);
+      startTimer();
+    } else {
+      // Quiz finished, handle end of quiz (e.g., show score)
+      alert("Quiz completed!");
+    }
+  }
+
+  // Initial setup
+  displayQuestion(questions[currentQuestionIndex]);
+  startTimer();
+</script>
+
+</body>
+</html>
+
